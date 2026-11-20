@@ -1,0 +1,16 @@
+export const meta = {
+  title: "Why our docs agent doesn't use a vector store",
+  date: "2026-12-01",
+  summary: "Navigation vs similarity search for documentation agents, with the trade-offs.",
+  tags: ["RLM", "agents", "retrieval"],
+  draft: true,
+};
+
+{/* TODO: write this post. Outline only — keep it generic and NDA-safe. */}
+
+## Outline
+
+- The problem: many platforms, near-identical wording; similarity search mixes them up.
+- The approach: let the model navigate (search, table of contents, read a section, delegate extraction).
+- The rule: answers may only cite documents the model actually read.
+- Trade-offs: more model calls and latency, in exchange for platform-specific answers.

@@ -1,0 +1,16 @@
+export const meta = {
+  title: "Two-phase confirmation for destructive agent tools",
+  date: "2026-12-15",
+  summary: "Why prompt-only confirmation isn't enough, and what to do instead.",
+  tags: ["guardrails", "MCP", "security"],
+  draft: true,
+};
+
+{/* TODO: write this post. Outline only — keep it generic and NDA-safe. */}
+
+## Outline
+
+- Why "ask the user first" in a system prompt fails.
+- Phase one: the tool returns a preview and a signed confirmation token, not a result.
+- Phase two: only a request carrying a valid, unexpired token executes.
+- Why the model can't fake a "yes".

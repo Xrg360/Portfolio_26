@@ -1,0 +1,23 @@
+export const meta = {
+  title: "Tracing an agent turn end to end with OpenTelemetry",
+  date: "2027-01-05",
+  summary: "Spans for model calls, tool calls and audits, so agent behaviour is debuggable.",
+  tags: ["OpenTelemetry", "observability", "agents"],
+  draft: true,
+};
+
+{/* TODO: write this post. Outline only — keep it generic and NDA-safe. */}
+
+## Outline
+
+- One trace per turn; child spans for each model call and tool call.
+- Recording token and cost usage as span attributes.
+- Audit spans for destructive actions.
+- Example span tree:
+
+```text
+turn
+├─ model.call
+├─ tool.call  read_logs
+└─ audit      action recorded
+```
