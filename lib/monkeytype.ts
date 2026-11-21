@@ -8,7 +8,7 @@ export const LAST_TTL = 90; // seconds: about 40 calls/hour at most
 const PB_TTL = 3600; // personal bests change rarely
 
 export type TypingStats =
-  | { ok: false; reason: "not-configured" | "unavailable" }
+  | { ok: false; reason: "not-configured" | "unavailable"; detail?: string }
   | {
       ok: true;
       last: { wpm: number; acc: number; label: string; language: string; timestamp: number; isPb: boolean };
@@ -26,13 +26,32 @@ type RawResult = {
 };
 type RawPb = { wpm: number; acc: number; language?: string };
 
+/** Upstream error; `config` means the key itself is wrong (retrying won't help). */
+export class MonkeytypeError extends Error {
+  constructor(
+    readonly status: number,
+    readonly upstream: string,
+  ) {
+    super(`monkeytype ${status}: ${upstream}`);
+  }
+  get config() {
+    return [400, 401, 403, 470, 471, 472].includes(this.status);
+  }
+}
+
+// Tolerate common paste mistakes: whitespace/newlines, quotes, a leading "ApeKey ".
+export function cleanKey(raw: string | undefined) {
+  return (raw ?? "").trim().replace(/^["']|["']$/g, "").replace(/^ApeKey\s+/i, "").trim();
+}
+
 async function ape<T>(path: string, ttl: number, key: string): Promise<T> {
   const res = await fetch(`${API}${path}`, {
-    headers: { Authorization: `ApeKey ${key}`, Accept: "application/json" },
+    headers: { Authorization: `ApeKey ${key}`, Accept: "application/json", "User-Agent": "portfolio-typing-stat" },
     next: { revalidate: ttl },
   });
-  if (!res.ok) throw new Error(`monkeytype ${path} -> ${res.status}`);
-  return ((await res.json()) as { data: T }).data;
+  const body = (await res.json().catch(() => ({}))) as { data?: T; message?: string };
+  if (!res.ok) throw new MonkeytypeError(res.status, body.message ?? res.statusText);
+  return body.data as T;
 }
 
 function modeLabel(mode: string, mode2: string) {
@@ -56,7 +75,7 @@ function bestOf(data: unknown, mode2: string): RawPb | null {
 }
 
 export async function getTypingStats(): Promise<TypingStats> {
-  const key = process.env.MONKEYTYPE_APE_KEY;
+  const key = cleanKey(process.env.MONKEYTYPE_APE_KEY);
   if (!key) return { ok: false, reason: "not-configured" };
 
   const last = await ape<RawResult>("/results/last", LAST_TTL, key);

@@ -12,7 +12,7 @@ export const site = {
   email: "rohitbabugeorge@gmail.com",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://rohit.simplewebsite.in").replace(/\/$/, ""),
   resumePath: "/resume",
-  resumeFile: "/Rohit_Babu_George_Resume.pdf",
+  resumeFile: "/Rohit_Babu_George_Resume.pdf?v=2", // bump ?v= whenever the PDF changes (busts browser caches)
   links: {
     github: "https://github.com/xrg360",
     linkedin: "https://www.linkedin.com/in/rohit-babu-george",
