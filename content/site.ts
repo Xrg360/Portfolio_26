@@ -79,6 +79,18 @@ export const contact = {
   copiedLabel: "Copied",
 } as const;
 
+// Live typing stat (components/TypingStat.tsx). Hidden until MONKEYTYPE_APE_KEY is set.
+export const typingCopy = {
+  live: "Live",
+  source: "monkeytype",
+  lastTest: "last test",
+  best: "PB",
+  newPb: "new PB",
+  acc: "acc",
+  ago: "ago",
+  note: "Refreshes every couple of minutes.",
+} as const;
+
 export const footer = {
   builtWith: "Built with Next.js",
 } as const;

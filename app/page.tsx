@@ -9,6 +9,7 @@ import { Timeline } from "@/components/Timeline";
 import { ProjectCard } from "@/components/ProjectCard";
 import { WritingList } from "@/components/WritingList";
 import { SkillGroups } from "@/components/SkillGroups";
+import { TypingStat } from "@/components/TypingStat";
 import { Contact } from "@/components/Contact";
 
 export default async function Home() {
@@ -48,6 +49,7 @@ export default async function Home() {
       ) : null}
       <Section id={sections.skills.id} index={idx("skills")} eyebrow={sections.skills.eyebrow} title={sections.skills.title} className="border-t-2 border-ink bg-surface/60">
         <SkillGroups />
+        <TypingStat />
       </Section>
       <div className="border-t-2 border-ink">
         <Contact index={idx("contact")} />

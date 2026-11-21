@@ -32,6 +32,20 @@ vercel --prod     # production
 - Optional env vars:
   - `NEXT_PUBLIC_SITE_URL`: canonical origin (default `https://rohit.simplewebsite.in`).
   - `NEXT_PUBLIC_ENABLE_ASK_CHAT=true`: turns on the phase-2 chat (not built yet; see `components/AskChat.tsx`).
+  - `MONKEYTYPE_APE_KEY`: turns on the live typing stat (see below).
+
+## Live typing stat (Monkeytype)
+
+The Skills section shows your latest Monkeytype result and your PB for the same mode.
+
+1. On monkeytype.com, open **Account settings → Ape keys**, generate a key and **activate** it (new keys start inactive).
+2. Add it as `MONKEYTYPE_APE_KEY` in Vercel's environment variables (and in `.env.local` to try it locally), then redeploy.
+
+How it works:
+- `app/api/typing/route.ts` is cached with ISR. It calls Monkeytype at most once every 90 s, about 40 calls/hour, under the API's 60/hour limit. PBs are cached for an hour.
+- The widget (`components/TypingStat.tsx`) polls that cached route every 60 s while the tab is visible, so a new test shows up within about 2 minutes.
+- Monkeytype has no WebSocket or push API, so this is as close to real time as it gets without hitting the rate limit.
+- The key stays on the server. If Monkeytype is down, the last good result keeps showing. Without a key, the widget doesn't render at all.
 
 ## Where things live
 
@@ -42,6 +56,7 @@ vercel --prod     # production
 | Project cards | `content/projects.ts` |
 | Skills | `content/skills.ts` |
 | Hero agent-trace scenarios | `content/traces.ts` |
+| Typing-stat labels | `content/site.ts` (`typingCopy`) |
 | Blog posts | `content/writing/*.mdx` |
 | Résumé PDF | `public/Rohit_Babu_George_Resume.pdf` (served at `/resume`) |
 | Colours, type, brutalist primitives | `app/globals.css` (tokens under `:root` and `[data-theme="dark"]`) |

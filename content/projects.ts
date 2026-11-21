@@ -39,7 +39,7 @@ export const projects: Project[] = [
   },
   {
     title: "Studio Billing App",
-    badge: "Client work",
+    badge: "Personal project",
     summary: "Mobile-first invoicing for a wedding content studio, built to be safe with money.",
     points: [
       "GST-ready invoices, PDF sharing on WhatsApp and payment tracking.",

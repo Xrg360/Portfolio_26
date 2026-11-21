@@ -6,7 +6,7 @@ export function Timeline() {
     <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
       <div>
         {experience.map((c) => (
-          <article key={c.company} className="brut p-5 sm:p-7">
+          <article key={c.company} className="brut-md md:p-7">
             <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
               <h3 className="text-xl font-bold">{c.company}</h3>
               <p className="font-mono text-sm text-muted">
