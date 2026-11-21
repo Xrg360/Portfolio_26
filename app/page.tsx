@@ -40,7 +40,7 @@ export default async function Home() {
         <Timeline />
       </Section>
       <Section id={sections.projects.id} index={idx("projects")} eyebrow={sections.projects.eyebrow} title={sections.projects.title} className="border-t-2 border-ink">
-        <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-6 md:grid-cols-2">
           {projects.map((p) => (
             <li key={p.title}>
               <ProjectCard p={p} />

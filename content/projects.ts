@@ -12,6 +12,23 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "SimplyCopy",
+    badge: "Live · 3.7k+ visitors / month",
+    year: "2026",
+    summary: "Share clipboard text between any two devices in real time: open the same word on both. No account, nothing to install.",
+    points: [
+      "Runs as one Cloudflare Worker on the free plan: a Durable Object per room stores pastes in SQLite and fans them out over WebSockets, with per-IP rate limits and a 24-hour auto-wipe.",
+      "Terminal client on npm (npx simplycopy): a full-screen TUI that works over SSH and on bare consoles, plus send / get / watch for scripts.",
+      // Source: Cloudflare analytics, 22 Oct – 21 Nov 2026.
+      "3.7k+ unique visitors and 142k requests in the last 30 days.",
+    ],
+    stack: ["Next.js", "Cloudflare Workers", "Durable Objects", "WebSockets", "TypeScript"],
+    links: [
+      { label: "Live", href: "https://copy.simplewebsite.in" },
+      { label: "npm", href: "https://www.npmjs.com/package/simplycopy" },
+    ],
+  },
+  {
     title: "AI-Driven Smart Fire Evacuation System",
     badge: "IEEE ICSCC 2025 · co-author",
     year: "2025",
