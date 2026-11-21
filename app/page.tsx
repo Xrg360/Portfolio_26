@@ -48,8 +48,8 @@ export default async function Home() {
         </Section>
       ) : null}
       <Section id={sections.skills.id} index={idx("skills")} eyebrow={sections.skills.eyebrow} title={sections.skills.title} className="border-t-2 border-ink bg-surface/60">
-        <SkillGroups />
         <TypingStat />
+        <SkillGroups />
       </Section>
       <div className="border-t-2 border-ink">
         <Contact index={idx("contact")} />

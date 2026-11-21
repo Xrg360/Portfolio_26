@@ -87,7 +87,7 @@ export function TypingStat() {
   return (
     <div ref={hostRef} aria-live="polite">
       {data ? (
-        <div className="brut rise mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 p-5 sm:p-6">
+        <div className="brut rise mb-10 flex flex-wrap items-center gap-x-8 gap-y-4 p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <span className="grid h-11 w-11 place-items-center rounded-md border-2 border-ink bg-accent text-accent-ink">
               <Keyboard size={20} aria-hidden="true" />

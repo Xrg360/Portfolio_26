@@ -3,9 +3,10 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Brutalist cursor: a lagging block that snaps into [brackets] around links and
- * buttons (with a mono label) and becomes a caret over the trace.
- * Fine pointers only; disabled under reduced motion.
+ * Tactical crosshair cursor (a nod to Valorant): tracks the pointer 1:1, blooms
+ * and turns red over links and buttons while [brackets] lock onto the target
+ * with a mono label, flashes a hit marker on click, and becomes a caret over
+ * the trace. Fine pointers only; disabled under reduced motion.
  */
 export function Cursor() {
   const blockRef = useRef<HTMLDivElement>(null);
@@ -49,8 +50,8 @@ export function Cursor() {
     };
 
     const loop = () => {
-      bx += (x - bx) * 0.28;
-      by += (y - by) * 0.28;
+      bx = x;
+      by = y;
       block.style.transform = `translate(${bx}px, ${by}px)`;
       if (Math.abs(x - bx) > 0.1 || Math.abs(y - by) > 0.1) {
         raf = requestAnimationFrame(loop);
@@ -101,7 +102,15 @@ export function Cursor() {
     };
 
     const onLeave = () => setMode("hidden");
-    const onDown = () => block.classList.add("is-down");
+    let hitTimer = 0;
+    const onDown = () => {
+      block.classList.add("is-down");
+      block.classList.remove("is-hit");
+      void block.offsetWidth; // restart the hit-marker animation
+      block.classList.add("is-hit");
+      window.clearTimeout(hitTimer);
+      hitTimer = window.setTimeout(() => block.classList.remove("is-hit"), 280);
+    };
     const onUp = () => block.classList.remove("is-down");
     const onScroll = () => {
       if (target) {
@@ -122,6 +131,7 @@ export function Cursor() {
 
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(hitTimer);
       root.classList.remove("has-cursor");
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerover", onOver);
@@ -150,7 +160,20 @@ export function Cursor() {
         />
       </div>
       <div ref={blockRef} data-mode="hidden" className="cursor-block fixed left-0 top-0">
-        <span />
+        <div className="xh">
+          <i />
+          <i />
+          <i />
+          <i />
+          <b />
+        </div>
+        <div className="xh-hit">
+          <i />
+          <i />
+          <i />
+          <i />
+        </div>
+        <span className="xh-caret" />
       </div>
     </div>
   );

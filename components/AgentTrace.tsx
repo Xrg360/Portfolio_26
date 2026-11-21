@@ -32,7 +32,7 @@ function StatusIcon({ status, visible }: { status?: StepStatus; visible: boolean
   );
 }
 
-export function AgentTrace({ disclaimer }: { disclaimer: string }) {
+export function AgentTrace() {
   const [sIdx, setSIdx] = useState(0);
   // `null` = static frame (server render, no JS, reduced motion): everything shown.
   const [t, setT] = useState<number | null>(null);
@@ -225,7 +225,6 @@ export function AgentTrace({ disclaimer }: { disclaimer: string }) {
           </button>
         ))}
       </div>
-      <p className="mt-3 text-[0.8rem] text-muted">{disclaimer}</p>
     </div>
   );
 }

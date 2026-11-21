@@ -15,6 +15,7 @@
   --warn: #b45309;
   --shadow: #1a1a1a;
   --grid: rgba(26, 26, 26, 0.06);
+  --val: #ff4655; /* Valorant-red, crosshair on target */
   color-scheme: light;
 }
 
@@ -30,6 +31,7 @@
   --warn: #fbbf24;
   --shadow: #ecedee;
   --grid: rgba(236, 237, 238, 0.05);
+  --val: #ff5c69;
   color-scheme: dark;
 }
 
@@ -524,43 +526,82 @@ html.has-cursor * {
   color: var(--shiki-dark) !important;
 }
 
-/* ---------- Custom cursor visuals ---------- */
-.cursor-block > span {
+/* ---------- Custom cursor: tactical crosshair ---------- */
+.xh {
+  --xh: var(--ink);
+  --gap: 4px;
+  --len: 7px;
+  --w: 2px;
   position: absolute;
-  left: -6px;
-  top: -6px;
-  width: 12px;
-  height: 12px;
-  background: var(--ink);
-  outline: 1.5px solid var(--bg);
-  transition:
-    width 140ms ease-out,
-    height 140ms ease-out,
-    left 140ms ease-out,
-    top 140ms ease-out,
-    opacity 140ms ease-out,
-    background-color 140ms;
+  left: 0;
+  top: 0;
+  transition: opacity 120ms ease-out;
 }
-.cursor-block[data-mode="hidden"] > span {
+.xh > i,
+.xh > b {
+  position: absolute;
+  background: var(--xh);
+  box-shadow: 0 0 0 1px var(--bg); /* outline, like an in-game crosshair */
+  transition:
+    transform 110ms ease-out,
+    background-color 120ms;
+}
+.xh > i:nth-child(1) { width: var(--w); height: var(--len); left: calc(var(--w) / -2); bottom: var(--gap); }
+.xh > i:nth-child(2) { width: var(--w); height: var(--len); left: calc(var(--w) / -2); top: var(--gap); }
+.xh > i:nth-child(3) { height: var(--w); width: var(--len); top: calc(var(--w) / -2); right: var(--gap); }
+.xh > i:nth-child(4) { height: var(--w); width: var(--len); top: calc(var(--w) / -2); left: var(--gap); }
+.xh > b { width: 2px; height: 2px; left: -1px; top: -1px; }
+/* spread ("bloom") on targets and while firing */
+.cursor-block[data-mode="target"] .xh { --xh: var(--val); }
+.cursor-block[data-mode="target"] .xh > i:nth-child(1),
+.cursor-block.is-down .xh > i:nth-child(1) { transform: translateY(-3px); }
+.cursor-block[data-mode="target"] .xh > i:nth-child(2),
+.cursor-block.is-down .xh > i:nth-child(2) { transform: translateY(3px); }
+.cursor-block[data-mode="target"] .xh > i:nth-child(3),
+.cursor-block.is-down .xh > i:nth-child(3) { transform: translateX(-3px); }
+.cursor-block[data-mode="target"] .xh > i:nth-child(4),
+.cursor-block.is-down .xh > i:nth-child(4) { transform: translateX(3px); }
+.cursor-block[data-mode="hidden"] .xh,
+.cursor-block[data-mode="caret"] .xh { opacity: 0; }
+
+/* hit marker: four diagonal ticks that flash on click */
+.xh-hit {
+  position: absolute;
+  left: 0;
+  top: 0;
   opacity: 0;
 }
-.cursor-block[data-mode="target"] > span {
-  width: 6px;
+.xh-hit > i {
+  position: absolute;
+  width: 2px;
   height: 6px;
-  left: -3px;
+  left: -1px;
   top: -3px;
-  background: var(--accent);
+  background: var(--val);
 }
-.cursor-block[data-mode="caret"] > span {
+.xh-hit > i:nth-child(1) { transform: rotate(45deg) translateY(-10px); }
+.xh-hit > i:nth-child(2) { transform: rotate(135deg) translateY(-10px); }
+.xh-hit > i:nth-child(3) { transform: rotate(225deg) translateY(-10px); }
+.xh-hit > i:nth-child(4) { transform: rotate(315deg) translateY(-10px); }
+@keyframes hit {
+  0% { opacity: 1; transform: scale(0.7); }
+  100% { opacity: 0; transform: scale(1.35); }
+}
+.cursor-block.is-hit .xh-hit { animation: hit 260ms ease-out; }
+
+/* text caret over the agent trace */
+.xh-caret {
+  position: absolute;
   width: 3px;
   height: 20px;
   left: -1.5px;
   top: -10px;
   background: var(--accent);
-  animation: blink 1s steps(1) infinite;
+  opacity: 0;
 }
-.cursor-block.is-down > span {
-  transform: scale(0.7);
+.cursor-block[data-mode="caret"] .xh-caret {
+  opacity: 1;
+  animation: blink 1s steps(1) infinite;
 }
 
 /* Composited sparkle drift (HTML elements, transform/opacity only) */

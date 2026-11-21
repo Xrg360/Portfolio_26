@@ -34,7 +34,6 @@ export const hero = {
   eyebrow: "AI ENGINEER · KOCHI, INDIA",
   primaryCta: "Download résumé",
   secondaryCta: "Email me",
-  traceDisclaimer: "Illustrative demo. Not real Hexnode data or code.",
 } as const;
 
 export const proofChips = [
@@ -93,6 +92,7 @@ export const typingCopy = {
 
 export const footer = {
   builtWith: "Built with Next.js",
+  offDuty: "Off the clock: probably in a Valorant queue.",
 } as const;
 
 export const writingCopy = {
@@ -103,7 +103,7 @@ export const writingCopy = {
 
 export const notFoundCopy = {
   code: "404",
-  title: "This route isn't in the plan.",
+  title: "Whiffed. This route isn't in the plan.",
   body: "The page you asked for doesn't exist. The agent refused to make one up.",
   back: "Back to home",
 } as const;

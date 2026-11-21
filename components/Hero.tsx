@@ -45,7 +45,7 @@ export function Hero() {
           </p>
         </div>
         <div className="rise" style={d(200)}>
-          <AgentTrace disclaimer={hero.traceDisclaimer} />
+          <AgentTrace />
         </div>
       </div>
     </section>

@@ -96,4 +96,4 @@ Append to `scenarios` in `content/traces.ts`. Each step has a `label`, a `text`,
 
 - **Motion:** CSS only, apart from small client scripts. Everything turns off under `prefers-reduced-motion`. Without JavaScript, the hero shows the full normal run as static text.
 - **3D backdrop** (`components/graph-scene.ts`): lazy-loaded three.js. It only loads on desktop with a fine pointer, at least 4 cores, no reduced motion and no data saver, after the page has gone idle. It renders at about 30 fps, pauses when off-screen, and otherwise shows a static SVG.
-- **Custom cursor:** fine pointers only; the native cursor is restored under reduced motion.
+- **Custom cursor:** a tactical crosshair (a nod to Valorant: red spread over targets, hit marker on click). Fine pointers only; the native cursor is restored under reduced motion. Colour token `--val` in `app/globals.css`.
