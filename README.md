@@ -33,6 +33,31 @@ vercel --prod     # production
   - `NEXT_PUBLIC_SITE_URL`: canonical origin (default `https://rohit.simplewebsite.in`).
   - `NEXT_PUBLIC_ENABLE_ASK_CHAT=true`: turns on the phase-2 chat (not built yet; see `components/AskChat.tsx`).
   - `MONKEYTYPE_APE_KEY`: turns on the live typing stat (see below).
+  - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` / `NEXT_PUBLIC_BING_SITE_VERIFICATION`: verification codes for Search Console and Bing (see SEO).
+
+## SEO
+
+What's built in:
+- **Metadata:** title, description, keywords, canonical, Open Graph and Twitter tags, plus a generated OG image (`app/opengraph-image.tsx`).
+- **Structured data:** a schema.org `ProfilePage` → `Person` + `WebSite` graph (`lib/seo.ts`). This helps Google tie name searches ("Rohit Babu George", "Rohit George", "xrg360") to this site, GitHub and LinkedIn.
+- **Sitemap and robots:**
+  - `/sitemap.xml` lists the home page and the résumé PDF. `/writing` is added once a post is published; until then it's `noindex`.
+  - `/robots.txt` keeps crawlers out of `/api/`.
+- **One indexed domain:** every `*.vercel.app` host gets `X-Robots-Tag: noindex` (`next.config.mjs`), so only the custom domain is indexed.
+- **Extras:**
+  - `/llms.txt`: a plain-text profile for AI search tools.
+  - `/manifest.webmanifest`.
+  - The résumé PDF has its title and author set, so Google shows a proper title for it.
+
+After deploying to the custom domain:
+1. In Vercel → Project → Domains, add `rohit.simplewebsite.in` and make it the primary domain. Set `NEXT_PUBLIC_SITE_URL=https://rohit.simplewebsite.in`, which is already the default.
+2. Open [Google Search Console](https://search.google.com/search-console) and add the property. Either:
+   - choose **Domain** (`simplewebsite.in`) and verify with a DNS TXT record, or
+   - choose **URL prefix** and put the code in `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, then redeploy.
+3. Submit `https://rohit.simplewebsite.in/sitemap.xml`, then use **URL inspection → Request indexing** on the home page.
+4. Optional: in Bing Webmaster Tools, choose **Import from Google Search Console**.
+5. Link the site from your GitHub profile (website field) and from LinkedIn (Contact info → Website). Those links are the strongest signals for name searches.
+6. Check the structured data with the [Rich Results Test](https://search.google.com/test/rich-results).
 
 ## Live typing stat (Monkeytype)
 

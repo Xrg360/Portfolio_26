@@ -3,6 +3,7 @@ import { JetBrains_Mono, Sora } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { site } from "@/content/site";
 import { getPosts } from "@/lib/posts";
+import { keywords, structuredData, verification } from "@/lib/seo";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Cursor } from "@/components/Cursor";
@@ -19,7 +20,11 @@ export const metadata: Metadata = {
   description: site.seo.description,
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
-  alternates: { canonical: "/" },
+  creator: site.name,
+  keywords,
+  category: "technology",
+  formatDetection: { telephone: false, address: false, email: false },
+  verification,
   openGraph: {
     type: "website",
     url: "/",
@@ -29,7 +34,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
   },
   twitter: { card: "summary_large_image", title: site.seo.title, description: site.seo.description },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
 };
 
 export const viewport: Viewport = {
@@ -42,18 +47,6 @@ export const viewport: Viewport = {
 // Sets theme before paint (no flash) and marks the page as JS-enabled for reveal animations.
 const bootScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}document.documentElement.classList.add('js')})()`;
 
-const personLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: site.name,
-  jobTitle: site.title,
-  url: site.url,
-  email: `mailto:${site.email}`,
-  worksFor: { "@type": "Organization", name: site.employer },
-  alumniOf: { "@type": "CollegeOrUniversity", name: site.alumniOf },
-  address: { "@type": "PostalAddress", addressLocality: "Kochi", addressCountry: "IN" },
-  sameAs: [site.links.github, site.links.linkedin],
-};
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const posts = await getPosts();
@@ -61,7 +54,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" data-theme="light" className={`${sora.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData()) }} />
       </head>
       <body>
         <a href="#main" className="skip-link btn btn-primary">Skip to content</a>

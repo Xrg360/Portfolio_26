@@ -5,6 +5,16 @@ const nextConfig = {
   pageExtensions: ["ts", "tsx", "mdx"],
   poweredByHeader: false,
   experimental: { optimizePackageImports: ["lucide-react"] },
+  // Only the custom domain should be indexed; *.vercel.app copies get noindex.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: ".*\\.vercel\\.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
+  },
 };
 
 const withMDX = createMDX({

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { projects } from "@/content/projects";
 import { sections } from "@/content/site";
 import { getPosts } from "@/lib/posts";
@@ -11,6 +12,11 @@ import { WritingList } from "@/components/WritingList";
 import { SkillGroups } from "@/components/SkillGroups";
 import { TypingStat } from "@/components/TypingStat";
 import { Contact } from "@/components/Contact";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { url: "/" },
+};
 
 export default async function Home() {
   const posts = (await getPosts()).slice(0, 3);

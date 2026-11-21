@@ -3,12 +3,17 @@ import { sections, site, writingCopy } from "@/content/site";
 import { getPosts } from "@/lib/posts";
 import { WritingList } from "@/components/WritingList";
 
-export const metadata: Metadata = {
-  title: "Writing",
-  description: `Notes from ${site.name} on building safe AI agents: guardrails, MCP, evals and tracing.`,
-  alternates: { canonical: "/writing" },
-  openGraph: { url: "/writing" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const posts = await getPosts();
+  return {
+    title: "Writing",
+    description: `Notes from ${site.name} on building safe AI agents: guardrails, MCP, evals and tracing.`,
+    alternates: { canonical: "/writing" },
+    openGraph: { url: "/writing" },
+    // Thin empty state: keep it out of the index until the first post ships.
+    robots: posts.length ? undefined : { index: false, follow: true },
+  };
+}
 
 export default async function WritingIndex() {
   const posts = await getPosts();
