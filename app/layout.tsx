@@ -10,6 +10,7 @@ import { Cursor } from "@/components/Cursor";
 import { Reveal } from "@/components/Reveal";
 import { AskChat } from "@/components/AskChat";
 import "./globals.css";
+import "./intro.css";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-sora", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-jetbrains", display: "swap" });
@@ -44,8 +45,9 @@ export const viewport: Viewport = {
   ],
 };
 
-// Sets theme before paint (no flash) and marks the page as JS-enabled for reveal animations.
-const bootScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}document.documentElement.classList.add('js')})()`;
+// Sets theme before paint (no flash), marks the page as JS-enabled for reveal animations,
+// and on the home page picks this session's intro scene (never the same as last visit).
+const bootScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}document.documentElement.classList.add('js');try{var d=document.documentElement;if(location.pathname==='/'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.getItem('intro')){var v=['dash','flash','recon','lockin'],l=localStorage.getItem('introLast'),c=v.filter(function(x){return x!==l}),p=c[Math.floor(Math.random()*c.length)];d.dataset.intro=p;sessionStorage.setItem('intro','1');localStorage.setItem('introLast',p)}}catch(e){}})()`;
 
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

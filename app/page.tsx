@@ -12,6 +12,7 @@ import { WritingList } from "@/components/WritingList";
 import { SkillGroups } from "@/components/SkillGroups";
 import { TypingStat } from "@/components/TypingStat";
 import { Contact } from "@/components/Contact";
+import { Intro } from "@/components/Intro";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -25,6 +26,7 @@ export default async function Home() {
 
   return (
     <>
+      <Intro />
       <Hero />
       <ProofStrip />
       <Section id={sections.build.id} index={idx("build")} eyebrow={sections.build.eyebrow} title={sections.build.title}>
