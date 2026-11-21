@@ -1,13 +1,13 @@
 // Shared drawing for the site's cartoon self-portrait (hero avatar + intro card).
 // Original illustration: tall curly hair swept up, thick brows, big squarish
-// glasses, full beard and moustache, warm brown skin, collared shirt.
+// glasses, full beard and moustache, light skin, collared shirt.
 // Coordinates are in the hero avatar's 180×122 viewBox.
 
 export const ART = {
-  skin: "#c08660",
-  skinShade: "#8a5a3e",
+  skin: "#fdf8f3",
+  skinShade: "#c4a08a",
   hairInk: "#231b16",
-  hairTexture: "#5b4a3f",
+  hairTexture: "#75645a",
   lens: "#f7f3ee",
   mouth: "#5b2018",
   lip: "#e8c2ab",
@@ -17,9 +17,12 @@ export const ART = {
     { cx: 124, cy: 86 },
   ],
   face: { cx: 90, cy: 84, rx: 33, ry: 38 },
+  // Scalloped curly outline: short sides, tall volume swept up off the forehead.
   hair:
-    "M56 72 C52 62 52 52 58 46 C54 38 60 28 70 28 C70 20 80 14 88 18 C94 10 106 12 110 20 C118 16 128 24 126 34 C134 38 134 50 126 54 C130 62 126 70 124 74 C120 64 116 58 110 55 C102 51 96 52 90 50 C82 52 74 51 68 55 C63 58 59 64 56 72 Z",
-  hairCurls: "M66 38 q4 -5 9 -1 M83 27 q4 -6 10 -2 M100 24 q5 -4 9 1 M113 33 q4 -2 7 3 M74 46 q4 -3 9 0 M93 38 q5 -4 10 0 M108 45 q4 -2 7 2 M60 56 q2 -4 6 -4",
+    "M57 74 C53 68 52 60 55 54 C51 50 52 43 57 41 C55 35 59 30 65 30 C64 24 70 20 76 21 C78 15 86 13 90 17 C94 12 102 12 105 17 C110 14 117 17 118 23 C124 23 128 29 126 35 C131 38 132 45 128 49 C131 54 129 59 125 60 C127 65 126 70 123 74 C120 66 115 60 109 58 C103 55 97 55 91 54 C84 55 77 55 71 58 C65 61 60 66 57 74 Z",
+  // Little spiral curls for texture.
+  hairCurls:
+    "M62 45 c2 -4 8 -4 8 1 c0 3 -4 3 -4 0 M73 33 c2 -4 8 -4 8 1 c0 3 -4 3 -4 0 M87 24 c2 -4 8 -4 8 1 c0 3 -4 3 -4 0 M102 25 c2 -4 8 -4 8 1 c0 3 -4 3 -4 0 M114 35 c2 -4 7 -3 7 1 c0 3 -4 3 -4 0 M81 41 c2 -4 8 -4 8 1 c0 3 -4 3 -4 0 M97 40 c2 -4 8 -4 8 1 c0 3 -4 3 -4 0 M69 51 c2 -3 7 -3 7 1 M108 49 c2 -3 7 -3 7 1 M119 47 c1 -3 5 -3 5 0",
   beard:
     "M56 82 C56 100 66 119 90 122 C114 119 124 100 124 82 C122 93 117 100 111 103 C104 101 97 100 90 101 C83 100 76 101 69 103 C63 100 58 93 56 82 Z",
   moustache: "M75 103 Q83 96 90 100 Q97 96 105 103 Q97 104.5 90 102.5 Q83 104.5 75 103 Z",
