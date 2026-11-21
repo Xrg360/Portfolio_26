@@ -15,7 +15,7 @@ export function Nav({ showWriting }: Props) {
     { href: "/#contact", label: "Contact" },
   ];
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-ink bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75">
+    <header className="sticky top-0 z-40 border-b-2 border-ink bg-bg">
       <nav aria-label="Main" className="mx-auto flex h-16 max-w-[1120px] items-center justify-between gap-3 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2.5 font-semibold" aria-label={`${site.name}, home`}>
           <BrandMark size={28} />

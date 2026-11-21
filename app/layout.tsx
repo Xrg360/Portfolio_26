@@ -71,7 +71,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Cursor />
         <Reveal />
         <AskChat />
-        <Analytics />
+        {process.env.VERCEL ? <Analytics /> : null}
       </body>
     </html>
   );

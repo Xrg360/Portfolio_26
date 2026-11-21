@@ -16,10 +16,10 @@ export function Hero() {
             <span aria-hidden="true" className="h-2 w-2 rounded-full bg-ok" />
             {hero.eyebrow}
           </p>
-          <h1 id="hero-title" className="display rise mt-6" style={d(60)}>
+          <h1 id="hero-title" className="display mt-6">
             {site.name}
           </h1>
-          <p className="rise mt-6 max-w-[24ch] text-[clamp(1.35rem,2.6vw,1.75rem)] font-semibold leading-snug" style={d(120)}>
+          <p className="mt-6 max-w-[24ch] text-[clamp(1.35rem,2.6vw,1.75rem)] font-semibold leading-snug">
             {site.oneLiner}
             <span aria-hidden="true" className="caret" />
           </p>

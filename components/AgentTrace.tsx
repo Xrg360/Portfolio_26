@@ -10,7 +10,8 @@ const LINE_MS = TYPE_MS + GAP_MS;
 const HOLD_DONE = 3000;
 const HOLD_HALT = 6500;
 const FADE_MS = 450;
-const TICK_MS = 33;
+const TICK_MS = 50;
+const START_DELAY_MS = 1500;
 
 function emit(detail: Record<string, unknown>) {
   window.dispatchEvent(new CustomEvent("trace:step", { detail }));
@@ -23,7 +24,12 @@ function StatusIcon({ status, visible }: { status?: StepStatus; visible: boolean
   if (status === "warn") return <span className="pop font-bold text-warn" aria-label="warning">⚠</span>;
   if (status === "wait")
     return <span className="pulse-warn inline-block h-2.5 w-2.5 rounded-full bg-warn align-middle" aria-label="waiting" />;
-  return <span className="text-muted" aria-label="held">⏸</span>;
+  return (
+    <span className="inline-flex gap-[3px] align-middle" aria-label="held">
+      <span className="h-2.5 w-[3px] bg-muted" />
+      <span className="h-2.5 w-[3px] bg-muted" />
+    </span>
+  );
 }
 
 export function AgentTrace({ disclaimer }: { disclaimer: string }) {
@@ -41,13 +47,23 @@ export function AgentTrace({ disclaimer }: { disclaimer: string }) {
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let timer = 0;
     const apply = () => {
       setAnimate(!mq.matches);
       setT(mq.matches ? null : 0);
     };
-    apply();
+    // Keep the static frame through page load, then start the loop.
+    const begin = () => {
+      timer = window.setTimeout(apply, START_DELAY_MS);
+    };
+    if (document.readyState === "complete") begin();
+    else window.addEventListener("load", begin, { once: true });
     mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("load", begin);
+      mq.removeEventListener("change", apply);
+    };
   }, []);
 
   // Ticker (pauses on hover/focus and when the tab is hidden).
@@ -101,7 +117,7 @@ export function AgentTrace({ disclaimer }: { disclaimer: string }) {
   const runState = !finished ? "running" : scenario.outcome === "halt" ? "awaiting human" : "completed";
 
   return (
-    <div className="relative pt-[92px] sm:pt-[104px]">
+    <div className="relative pt-[92px] sm:pt-[104px] lg:pt-[122px]">
       <div className="absolute right-6 top-0 z-10 sm:right-10">
         <Avatar mood={mood} typing={!finished && t !== null} />
       </div>
@@ -151,7 +167,7 @@ export function AgentTrace({ disclaimer }: { disclaimer: string }) {
         <ol
           aria-hidden="true"
           data-cursor-mode="caret"
-          className="px-4 py-4 font-mono text-[0.78rem] leading-[1.55] sm:px-5 sm:text-[0.8125rem] transition-opacity"
+          className="px-4 py-4 font-mono text-[0.78rem] leading-[1.55] [contain:layout_paint] sm:px-5 sm:text-[0.8125rem] transition-opacity"
           style={{ opacity: fading ? 0 : 1, transitionDuration: `${FADE_MS}ms` }}
         >
           {scenario.steps.map((s, i) => {

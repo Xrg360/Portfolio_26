@@ -71,7 +71,7 @@ export function GraphBackdrop() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_75%_70%_at_60%_45%,black_35%,transparent_80%)]"
+      className="pointer-events-none absolute inset-0 -z-10 hidden lg:block [mask-image:radial-gradient(ellipse_75%_70%_at_60%_45%,black_35%,transparent_80%)] lg:[mask-image:radial-gradient(ellipse_48%_80%_at_80%_48%,black_30%,transparent_78%)]"
     >
       <div className={`absolute inset-0 transition-opacity duration-1000 ${live ? "opacity-0" : "opacity-100"}`}>
         <StaticGraph />

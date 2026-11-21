@@ -469,3 +469,20 @@ html.has-cursor * {
 .cursor-block.is-down > span {
   transform: scale(0.7);
 }
+
+/* Composited sparkle drift (HTML elements, transform/opacity only) */
+@keyframes drift-html {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(3px, -7px, 0) rotate(25deg);
+    opacity: 0.35;
+  }
+}
+.drift-html {
+  animation: drift-html 3.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}

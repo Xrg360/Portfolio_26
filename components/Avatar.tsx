@@ -14,6 +14,24 @@ export function Avatar({ mood, typing }: { mood: Mood; typing: boolean }) {
   const [hover, setHover] = useState(false);
   if (hover) mood = "delighted";
 
+  // Blink every few seconds (one style change, not a running animation).
+  const lidsRef = useRef<SVGGElement>(null);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let t1 = 0;
+    let t2 = 0;
+    const blink = () => {
+      lidsRef.current?.setAttribute("transform", "translate(0 79) scale(1 0.1) translate(0 -79)");
+      t2 = window.setTimeout(() => lidsRef.current?.removeAttribute("transform"), 130);
+      t1 = window.setTimeout(blink, 3800 + Math.random() * 2400);
+    };
+    t1 = window.setTimeout(blink, 2500);
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, []);
+
   useEffect(() => {
     const svg = svgRef.current;
     const pupils = pupilsRef.current;
@@ -75,10 +93,13 @@ export function Avatar({ mood, typing }: { mood: Mood; typing: boolean }) {
   const browR = mood === "concerned" ? "M96 63 Q106 61 116 64" : "M96 65 Q106 61 116 66";
 
   return (
+    <div className="relative">
+      <span aria-hidden="true" className="drift-html absolute -left-3 top-3 text-[13px] text-accent">✦</span>
+      <span aria-hidden="true" className="drift-html absolute -right-2 top-14 text-[10px] text-accent [animation-delay:1.4s]">✦</span>
     <svg
       ref={svgRef}
       viewBox="0 0 180 122"
-      className="group/avatar pointer-events-auto h-auto w-[132px] sm:w-[150px]"
+      className="group/avatar pointer-events-auto h-auto w-[132px] sm:w-[150px] lg:w-[176px]"
       aria-hidden="true"
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
@@ -91,11 +112,9 @@ export function Avatar({ mood, typing }: { mood: Mood; typing: boolean }) {
 
       {/* sparkles */}
       <g fill="var(--accent)">
-        <path className="drift" d="M152 28 l2.5 6.5 6.5 2.5 -6.5 2.5 -2.5 6.5 -2.5 -6.5 -6.5 -2.5 6.5 -2.5z" />
-        <path className="drift" style={{ animationDelay: "1.1s" }} d="M28 44 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" />
+        <path d="M152 28 l2.5 6.5 6.5 2.5 -6.5 2.5 -2.5 6.5 -2.5 -6.5 -6.5 -2.5 6.5 -2.5z" />
+        <path d="M28 44 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" />
         <path
-          className="drift"
-          style={{ animationDelay: "2s" }}
           d="M162 66 l1.5 3.5 3.5 1.5 -3.5 1.5 -1.5 3.5 -1.5 -3.5 -3.5 -1.5 3.5 -1.5z"
         />
         <text x="20" y="84" className="font-mono" fontSize="11" fontWeight="600" fill="var(--muted)">
@@ -124,7 +143,7 @@ export function Avatar({ mood, typing }: { mood: Mood; typing: boolean }) {
         <path d="M61 78 L56 76 M119 78 L124 76" fill="none" />
         {/* pupils (follow pointer) + blink */}
         <g ref={pupilsRef} transform="translate(0 2.5)">
-          <g className="blink" stroke="none" fill="var(--ink)">
+          <g ref={lidsRef} stroke="none" fill="var(--ink)">
             <circle cx="73.5" cy="79" r="3.3" />
             <circle cx="106.5" cy="79" r="3.3" />
           </g>
@@ -162,5 +181,6 @@ export function Avatar({ mood, typing }: { mood: Mood; typing: boolean }) {
         </g>
       </g>
     </svg>
+    </div>
   );
 }
